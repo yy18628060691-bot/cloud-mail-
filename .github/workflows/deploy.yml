@@ -1,0 +1,28 @@
+name: 自动部署云邮局到Cloudflare Workers
+on:
+  push:
+    branches: [ main ] # 只要main分支更新代码，自动执行部署
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取仓库代码
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      # 安装node和wrangler部署工具
+      - name: 配置Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 全局安装Wrangler
+        run: npm install -g wrangler
+
+      # 进入mail-worker目录执行部署
+      - name: 部署Worker
+        working-directory: ./mail-worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
