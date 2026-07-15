@@ -16,8 +16,8 @@ jobs:
         with:
           node-version: 22
 
-      - name: 全局工具安装
-        run: npm install -g wrangler
+      - name: 全局安装pnpm与wrangler
+        run: npm install -g pnpm wrangler
 
       - name: 部署云邮局Worker
         working-directory: ./mail-worker
