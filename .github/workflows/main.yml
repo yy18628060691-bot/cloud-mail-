@@ -22,11 +22,12 @@ jobs:
         run: npm install -g pnpm wrangler
 
       # 打包前端页面mail-vue
-      - name: 构建前端静态资源
-        run: |
-          cd ./mail-vue
-          pnpm install
-          pnpm run build
+- name: 构建前端静态资源
+  run: |
+    cd ./mail-vue
+    pnpm install --ignore-builds=false
+    pnpm approve-builds --all
+    pnpm run build
 
       # 部署Worker到Cloudflare
       - name: 部署云邮局Worker
