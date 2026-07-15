@@ -2,17 +2,15 @@ name: CloudMail自动部署
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # 手动运行按钮
+  workflow_dispatch:
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      # 拉取仓库全部代码
       - name: 检出代码
         uses: actions/checkout@v4
 
-      # 配置Node环境，安装pnpm和wrangler
       - name: 安装Node.js 22
         uses: actions/setup-node@v4
         with:
@@ -21,15 +19,13 @@ jobs:
       - name: 全局工具安装
         run: npm install -g pnpm wrangler
 
-      # 打包前端页面mail-vue
-- name: 构建前端静态资源
-  run: |
-    cd ./mail-vue
-    pnpm install --ignore-builds=false
-    pnpm approve-builds --all
-    pnpm run build
+      - name: 构建前端静态资源
+        run: |
+          cd ./mail-vue
+          pnpm install --ignore-builds=false
+          pnpm approve-builds --all
+          pnpm run build
 
-      # 部署Worker到Cloudflare
       - name: 部署云邮局Worker
         working-directory: ./mail-worker
         env:
