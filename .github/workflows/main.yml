@@ -17,14 +17,7 @@ jobs:
           node-version: 22
 
       - name: 全局工具安装
-        run: npm install -g pnpm wrangler
-
-      - name: 构建前端静态资源
-        run: |
-          cd ./mail-vue
-          pnpm install --ignore-builds=false
-          pnpm approve-builds --all
-          pnpm run build
+        run: npm install -g wrangler
 
       - name: 部署云邮局Worker
         working-directory: ./mail-worker
